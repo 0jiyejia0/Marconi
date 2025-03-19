@@ -28,24 +28,19 @@ class ResultsVisualizer:
             'No Cache': "#C44E52"
         }
         
-        # Create results directory if it doesn't exist
         os.makedirs(results_dir, exist_ok=True)
         
-        # Set plot style 
         plt.style.use(style)
         
-        # Set font properties based on language
         self._set_font_properties(language)
     
     def _set_font_properties(self, language):
         if language == 'zh':
-            # Chinese font settings
             plt.rcParams['font.sans-serif'] = ['SimHei', 'Arial Unicode MS', 
                                                'DejaVu Sans', 'sans-serif']
             plt.rcParams['axes.unicode_minus'] = False
             plt.rcParams['font.family'] = 'sans-serif'
             
-            # Text mappings
             self.text = {
                 'time_comparison': '生成时间对比',
                 'hit_rate_comparison': '缓存命中率对比',
@@ -73,10 +68,8 @@ class ResultsVisualizer:
                 'max_entries': '最大条目数'
             }
         else:
-            # English font settings
             plt.rcParams['font.family'] = 'sans-serif'
             
-            # Text mappings
             self.text = {
                 'time_comparison': 'Generation Time Comparison',
                 'hit_rate_comparison': 'Cache Hit Rate Comparison',
@@ -122,20 +115,16 @@ class ResultsVisualizer:
         if fig is None:
             fig = plt.gcf()
         
-        # Create full path
         path = os.path.join(self.results_dir, f"{filename}.{self.figure_format}")
         
-        # Save with specified settings
         fig.savefig(path, dpi=self.dpi, bbox_inches='tight')
         
-        # Close if requested (to free memory)
         if close:
             plt.close(fig)
     
     def _prepare_boxplot_data(self, data, metrics, cache_types=None):
         cache_labels = self._get_cache_labels()
         
-        # Create DataFrame
         df_dict = {}
         for cache_type, label in cache_labels.items():
             # 如果指定了cache_types，只处理指定的缓存类型
@@ -165,7 +154,6 @@ class ResultsVisualizer:
                                cache_types=None, figsize=(10, 6)):
         fig, ax = plt.subplots(figsize=figsize)
         
-        # Prepare data
         df = self._prepare_boxplot_data(data, metric, cache_types)
         
         if df.empty:
